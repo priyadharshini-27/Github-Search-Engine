@@ -1,33 +1,21 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import Navbar from "./components/Navbar";
 import "./App.css";
-import Navbar from "./components/layout/Navbar";
-import Users from "./components/users/Users";
-import axios from "axios";
+import Searchbar from "./components/Searchbar";
+import Users from "./components/Users";
 
-class App extends Component {
-  state={
-    users:[],
-    loading:false
-  }
-
-  async componentDidMount() {
-    //runs when comp mounts
-    this.setState({loading:true});
-
-    const res = await axios.get("https://api.github.com/users");
-  
-    this.setState({users:res.data,loading:false})
-    console.log(res.data);
-    //console.log("123");
-  }
-  render() {
-    return (
-      <div className="App">
-        <Navbar />
-        <Users loading={this.state.loading} users={this.state.users}/>
-      </div>
-    );
-  }
+function App() {
+  const [data, setdata] = useState("");
+  const userName = (user) => {
+    setdata(user);
+  };
+  return (
+    <div className="App">
+      <Navbar />
+      <Searchbar userinfo={userName} />
+      <Users data={data} />
+    </div>
+  );
 }
 
 export default App;
